@@ -27,6 +27,21 @@ public class GameOfLife {
     }
 
     private void renderCell(Cell cell) {
+        if (cell.isAlive()) {
+            renderAliveCell(cell);
+        } else {
+            renderDeadCell(cell);
+        }
+    }
+
+    private void renderDeadCell(Cell cell) {
+        int numberOfNeighbours = numberOfNeighbors(cell);
+        if (numberOfNeighbours == 3) {
+            cell.setAlive(true);
+        }
+    }
+
+    private void renderAliveCell(Cell cell) {
         int numberOfNeighbours = numberOfNeighbors(cell);
         if (2 > numberOfNeighbours || numberOfNeighbours > 3) {
             cell.setAlive(false);
@@ -52,7 +67,6 @@ public class GameOfLife {
     private double squareDistanceOfTwoPositions(Position position, Position position2) {
         return pow(position.row() - position2.row(), 2) + pow(position.column() - position2.column(), 2);
     }
-
 
 
     @Override

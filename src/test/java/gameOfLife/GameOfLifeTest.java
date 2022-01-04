@@ -92,4 +92,20 @@ class GameOfLifeTest {
 
         assertThat(gameOfLife.getCell(new Position(1, 1))).isEqualTo(expected);
     }
+
+    @Test
+    void deadCellWithThreeNeighboursAliveWhenRender() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .cellAlive(new Position(0, 2))
+                .cellAlive(new Position(1, 0))
+                .cellAlive(new Position(1, 2))
+                .build();
+
+        gameOfLife.render();
+
+        Cell expected = new Cell(new Position(1, 1));
+        expected.setAlive(true);
+
+        assertThat(gameOfLife.getCell(new Position(1, 1))).isEqualTo(expected);
+    }
 }
