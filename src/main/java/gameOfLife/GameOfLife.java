@@ -28,7 +28,7 @@ public class GameOfLife {
 
     private void renderCell(Cell cell) {
         int numberOfNeighbours = numberOfNeighbors(cell);
-        if (numberOfNeighbours != 2) {
+        if (2 > numberOfNeighbours || numberOfNeighbours > 3) {
             cell.setAlive(false);
         }
     }
