@@ -36,7 +36,6 @@ class GameOfLifeTest {
                 .cellAlive(new Position(0, 1))
                 .cellAlive(new Position(0, 2))
                 .build();
-
         gameOfLife.render();
 
         Cell expected = new Cell(new Position(1, 1));
@@ -53,7 +52,6 @@ class GameOfLifeTest {
                 .cellAlive(new Position(0, 2))
                 .cellAlive(new Position(1, 0))
                 .build();
-
         gameOfLife.render();
 
         Cell expected = new Cell(new Position(1, 1));
@@ -68,7 +66,6 @@ class GameOfLifeTest {
                 .cellAlive(new Position(1, 1))
                 .cellAlive(new Position(0, 1))
                 .build();
-
         gameOfLife.render();
 
         Cell expected = new Cell(new Position(1, 1));
@@ -85,7 +82,6 @@ class GameOfLifeTest {
                 .cellAlive(new Position(1, 0))
                 .cellAlive(new Position(1, 2))
                 .build();
-
         gameOfLife.render();
 
         Cell expected = new Cell(new Position(1, 1));
@@ -100,11 +96,38 @@ class GameOfLifeTest {
                 .cellAlive(new Position(1, 0))
                 .cellAlive(new Position(1, 2))
                 .build();
-
         gameOfLife.render();
 
         Cell expected = new Cell(new Position(1, 1));
         expected.setAlive(true);
+
+        assertThat(gameOfLife.getCell(new Position(1, 1))).isEqualTo(expected);
+    }
+
+    @Test
+    void deadCellWithTwoNeighboursStaysDeadWhenRender() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .cellAlive(new Position(0, 2))
+                .cellAlive(new Position(1, 0))
+                .build();
+        gameOfLife.render();
+
+        Cell expected = new Cell(new Position(1, 1));
+
+        assertThat(gameOfLife.getCell(new Position(1, 1))).isEqualTo(expected);
+    }
+
+    @Test
+    void deadCellWithFourNeighboursStaysDeadWhenRender() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .cellAlive(new Position(0, 2))
+                .cellAlive(new Position(1, 0))
+                .cellAlive(new Position(1, 2))
+                .cellAlive(new Position(2, 2))
+                .build();
+        gameOfLife.render();
+
+        Cell expected = new Cell(new Position(1, 1));
 
         assertThat(gameOfLife.getCell(new Position(1, 1))).isEqualTo(expected);
     }
