@@ -22,7 +22,21 @@ class GameOfLifeTest {
         gameOfLife.setCellAlive(new Position(1, 1), true);
         gameOfLife.render();
 
-        Cell expected = new Cell();
+        Cell expected = new Cell(new Position(1, 1));
+
+        assertThat(gameOfLife.getCell(new Position(1, 1))).isEqualTo(expected);
+    }
+
+    @Test
+    void aliveCellTwoNeighboursLivesWhenRender() {
+        GameOfLife gameOfLife = new GameOfLife(3, 3);
+        gameOfLife.setCellAlive(new Position(1, 1), true);
+        gameOfLife.setCellAlive(new Position(0, 1), true);
+        gameOfLife.setCellAlive(new Position(0, 2), true);
+        gameOfLife.render();
+
+        Cell expected = new Cell(new Position(1, 1));
+        expected.setAlive(true);
 
         assertThat(gameOfLife.getCell(new Position(1, 1))).isEqualTo(expected);
     }
