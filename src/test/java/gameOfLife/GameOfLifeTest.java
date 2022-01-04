@@ -202,4 +202,23 @@ class GameOfLifeTest {
 
         assertThat(gameOfLife).isEqualTo(expected);
     }
+
+    @Test
+    void twoRendersOf3AliveIn5x5Matrix() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(5, 5)
+                .cellAlive(new Position(2, 1))
+                .cellAlive(new Position(2, 2))
+                .cellAlive(new Position(2, 3))
+                .build();
+        gameOfLife.render();
+        gameOfLife.render();
+
+        GameOfLife expected = new GameOfLife.GameOfLifeBuilder(5, 5)
+                .cellAlive(new Position(2, 1))
+                .cellAlive(new Position(2, 2))
+                .cellAlive(new Position(2, 3))
+                .build();
+
+        assertThat(gameOfLife).isEqualTo(expected);
+    }
 }

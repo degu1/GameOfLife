@@ -1,7 +1,6 @@
 package gameOfLife;
 
 import java.util.Arrays;
-
 import static java.lang.Math.pow;
 
 public class GameOfLife {
@@ -22,8 +21,21 @@ public class GameOfLife {
     }
 
     public void render() {
+        renderAllCells();
+        updateLastCellMatrix();
+    }
+
+    private void renderAllCells() {
         Arrays.stream(cellMatrix).flatMap(Arrays::stream)
                 .forEach(cell -> renderCell(cell));
+    }
+
+    private void updateLastCellMatrix() {
+        for (int row = 0; row < cellMatrix.length; row++) {
+            for (int col = 0; col < cellMatrix[0].length; col++) {
+                lastCellMatrix[row][col].setAlive(cellMatrix[row][col].isAlive());
+            }
+        }
     }
 
     private void renderCell(Cell cell) {
