@@ -3,23 +3,25 @@ package gameOfLife;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class GameOfLifeTest {
 
     @Test
     void empty3x3ReturnsEmpty3x3() {
-        GameOfLife gameOfLife = new GameOfLife(3, 3);
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .build();
 
-        GameOfLife expected = new GameOfLife(3, 3);
+        GameOfLife expected = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .build();
 
         assertThat(gameOfLife.getCellMatrix()).isEqualTo(expected.getCellMatrix());
     }
 
     @Test
     void aliveCellNoNeighboursDiesWhenRender() {
-        GameOfLife gameOfLife = new GameOfLife(3, 3);
-        gameOfLife.setCellAlive(new Position(1, 1), true);
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .cellAlive(new Position(1, 1))
+                .build();
         gameOfLife.render();
 
         Cell expected = new Cell(new Position(1, 1));
@@ -29,10 +31,12 @@ class GameOfLifeTest {
 
     @Test
     void aliveCellTwoNeighboursLivesWhenRender() {
-        GameOfLife gameOfLife = new GameOfLife(3, 3);
-        gameOfLife.setCellAlive(new Position(1, 1), true);
-        gameOfLife.setCellAlive(new Position(0, 1), true);
-        gameOfLife.setCellAlive(new Position(0, 2), true);
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .cellAlive(new Position(1, 1))
+                .cellAlive(new Position(0, 1))
+                .cellAlive(new Position(0, 2))
+                .build();
+
         gameOfLife.render();
 
         Cell expected = new Cell(new Position(1, 1));
