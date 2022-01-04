@@ -74,7 +74,12 @@ public class GameOfLife {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GameOfLife that = (GameOfLife) o;
-        return Arrays.equals(cellMatrix, that.cellMatrix);
+        for (int i = 0; i < cellMatrix[0].length; i++) {
+            if (!Arrays.equals(cellMatrix[i], that.cellMatrix[i])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

@@ -131,4 +131,75 @@ class GameOfLifeTest {
 
         assertThat(gameOfLife.getCell(new Position(1, 1))).isEqualTo(expected);
     }
+
+    @Test
+    void matrix10x10with3liveCellsAnd4LiveCellsAfterRender() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(10, 10)
+                .cellAlive(new Position(0, 0))
+                .cellAlive(new Position(0, 1))
+                .cellAlive(new Position(1, 0))
+                .build();
+        gameOfLife.render();
+
+        GameOfLife expected = new GameOfLife.GameOfLifeBuilder(10, 10)
+                .cellAlive(new Position(0, 0))
+                .cellAlive(new Position(0, 1))
+                .cellAlive(new Position(1, 0))
+                .cellAlive(new Position(1, 1))
+                .build();
+
+        assertThat(gameOfLife).isEqualTo(expected);
+    }
+
+    @Test
+    void aliveCellInPosition0x0In3x3Matrix() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .cellAlive(new Position(0, 0))
+                .build();
+        gameOfLife.render();
+
+        GameOfLife expected = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .build();
+
+        assertThat(gameOfLife).isEqualTo(expected);
+    }
+
+    @Test
+    void aliveCellInPosition0x2In3x3Matrix() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .cellAlive(new Position(0, 2))
+                .build();
+        gameOfLife.render();
+
+        GameOfLife expected = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .build();
+
+        assertThat(gameOfLife).isEqualTo(expected);
+    }
+
+    @Test
+    void aliveCellInPosition2x0In3x3Matrix() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .cellAlive(new Position(2, 0))
+                .build();
+        gameOfLife.render();
+
+        GameOfLife expected = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .build();
+
+        assertThat(gameOfLife).isEqualTo(expected);
+    }
+
+    @Test
+    void aliveCellInPosition2x2In3x3Matrix() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .cellAlive(new Position(2, 2))
+                .build();
+        gameOfLife.render();
+
+        GameOfLife expected = new GameOfLife.GameOfLifeBuilder(3, 3)
+                .build();
+
+        assertThat(gameOfLife).isEqualTo(expected);
+    }
 }
