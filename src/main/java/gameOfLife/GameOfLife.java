@@ -103,10 +103,10 @@ public class GameOfLife {
         private final Cell[][] cellMatrix;
         private final Cell[][] lastCellMatrix;
 
-        public GameOfLifeBuilder(int rows, int columns) {
-            this.cellMatrix = new Cell[rows][columns];
-            this.lastCellMatrix = new Cell[rows][columns];
-            populateMatrix(rows, columns);
+        public GameOfLifeBuilder(MatrixSize matrixSize) {
+            this.cellMatrix = new Cell[matrixSize.rows()][matrixSize.columns()];
+            this.lastCellMatrix = new Cell[matrixSize.rows()][matrixSize.columns()];
+            populateMatrix(matrixSize.rows(), matrixSize.columns());
         }
 
         private void populateMatrix(int rows, int columns) {
