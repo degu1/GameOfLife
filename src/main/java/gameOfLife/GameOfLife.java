@@ -1,16 +1,21 @@
 package gameOfLife;
 
 import java.util.Arrays;
+
 import static java.lang.Math.pow;
 import static gameOfLife.Validate.notNull;
+import static gameOfLife.Validate.isBetween;
+import static gameOfLife.Validate.validPosition;
 
 public class GameOfLife {
     private final Cell[][] cellMatrix;
     private final Cell[][] lastCellMatrix;
+    private final MatrixSize matrixSize;
 
-    private GameOfLife(Cell[][] cellMatrix, Cell[][] lastCellMatrix) {
+    private GameOfLife(Cell[][] cellMatrix, Cell[][] lastCellMatrix, MatrixSize matrixSize) {
         this.cellMatrix = cellMatrix;
         this.lastCellMatrix = lastCellMatrix;
+        this.matrixSize = matrixSize;
     }
 
     public Cell[][] getCellMatrix() {
@@ -21,6 +26,10 @@ public class GameOfLife {
         return cellMatrix[position.row()][position.column()];
     }
 
+    public MatrixSize getMatrixSize() {
+        return matrixSize;
+    }
+
     public void render() {
         renderAllCells();
         updateLastCellMatrix();
@@ -28,7 +37,7 @@ public class GameOfLife {
 
     private void renderAllCells() {
         Arrays.stream(cellMatrix).flatMap(Arrays::stream)
-                .forEach(cell -> renderCell(cell));
+                .forEach(cell -> cell.renderCell(numberOfNeighbors(cell)));
     }
 
     private void updateLastCellMatrix() {
@@ -39,29 +48,7 @@ public class GameOfLife {
         }
     }
 
-    private void renderCell(Cell cell) {
-        if (cell.isAlive()) {
-            renderAliveCell(cell);
-        } else {
-            renderDeadCell(cell);
-        }
-    }
-
-    private void renderDeadCell(Cell cell) {
-        int numberOfNeighbours = numberOfNeighbors(cell);
-        if (numberOfNeighbours == 3) {
-            cell.setAlive(true);
-        }
-    }
-
-    private void renderAliveCell(Cell cell) {
-        int numberOfNeighbours = numberOfNeighbors(cell);
-        if (2 > numberOfNeighbours || numberOfNeighbours > 3) {
-            cell.setAlive(false);
-        }
-    }
-
-    public int numberOfNeighbors(Cell currentCell) {
+    private int numberOfNeighbors(Cell currentCell) {
         return Arrays.stream(lastCellMatrix).flatMap(Arrays::stream)
                 .filter(cell -> isNeighbor(currentCell.position(), cell.position()))
                 .filter(Cell::isAlive)
@@ -70,11 +57,7 @@ public class GameOfLife {
     }
 
     private boolean isNeighbor(Position position, Position position2) {
-        int lowerLimit = 0;
-        int upperLimit = 4;
-
-        return lowerLimit < squareDistanceOfTwoPositions(position, position2) &&
-                squareDistanceOfTwoPositions(position, position2) < upperLimit;
+        return isBetween(squareDistanceOfTwoPositions(position, position2), 0, 4);
     }
 
     private double squareDistanceOfTwoPositions(Position position, Position position2) {
@@ -103,8 +86,10 @@ public class GameOfLife {
     public static class GameOfLifeBuilder {
         private final Cell[][] cellMatrix;
         private final Cell[][] lastCellMatrix;
+        MatrixSize matrixSize;
 
         public GameOfLifeBuilder(MatrixSize matrixSize) {
+            this.matrixSize = matrixSize;
             this.cellMatrix = new Cell[matrixSize.rows()][matrixSize.columns()];
             this.lastCellMatrix = new Cell[matrixSize.rows()][matrixSize.columns()];
             populateMatrix(matrixSize.rows(), matrixSize.columns());
@@ -120,14 +105,14 @@ public class GameOfLife {
         }
 
         public GameOfLifeBuilder cellAlive(Position position) {
-            notNull(position);
-            cellMatrix[position.row()][position.column()].setAlive(true);
-            lastCellMatrix[position.row()][position.column()].setAlive(true);
+            validPosition(notNull(position), matrixSize);
+            cellMatrix[position.row()][position.column()].bringAlive();
+            lastCellMatrix[position.row()][position.column()].bringAlive();
             return this;
         }
 
         public GameOfLife build() {
-            return new GameOfLife(cellMatrix, lastCellMatrix);
+            return new GameOfLife(cellMatrix, lastCellMatrix, matrixSize);
         }
 
     }

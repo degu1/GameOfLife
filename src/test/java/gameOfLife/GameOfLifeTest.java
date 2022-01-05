@@ -239,4 +239,36 @@ class GameOfLifeTest {
                         .cellAlive(null)
                         .build());
     }
+
+    @Test
+    void throwsExceptionWhenPositionRowNotInMatrix() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() ->
+                new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
+                        .cellAlive(new Position(4, 0))
+                        .build());
+    }
+
+    @Test
+    void throwsExceptionWhenPositionColumnNotInMatrix() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() ->
+                new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
+                        .cellAlive(new Position(0, 4))
+                        .build());
+    }
+
+    @Test
+    void notThrowsExceptionWhenRowColumnInMatrix() {
+        assertThatNoException().isThrownBy(() ->
+                new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
+                        .cellAlive(new Position(0, 2))
+                        .build());
+    }
+
+    @Test
+    void notThrowsExceptionWhenPositionColumnInMatrix() {
+        assertThatNoException().isThrownBy(() ->
+                new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
+                        .cellAlive(new Position(0, 2))
+                        .build());
+    }
 }
