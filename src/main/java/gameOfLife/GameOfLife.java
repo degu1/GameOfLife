@@ -23,11 +23,8 @@ public class GameOfLife {
     }
 
     public Cell getCell(Position position) {
+        validPosition(position, matrixSize);
         return cellMatrix[position.row()][position.column()];
-    }
-
-    public MatrixSize getMatrixSize() {
-        return matrixSize;
     }
 
     public void render() {
@@ -63,7 +60,6 @@ public class GameOfLife {
     private double squareDistanceOfTwoPositions(Position position, Position position2) {
         return pow(position.row() - position2.row(), 2) + pow(position.column() - position2.column(), 2);
     }
-
 
     @Override
     public boolean equals(Object o) {

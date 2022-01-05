@@ -271,4 +271,14 @@ class GameOfLifeTest {
                         .cellAlive(new Position(0, 2))
                         .build());
     }
+
+    @Test
+    void getCellThrowsExceptionWhenPositionIsOutsideMatrix() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
+                .build();
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> gameOfLife.getCell(new Position(4, 4)));
+    }
+
 }
