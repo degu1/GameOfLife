@@ -231,4 +231,12 @@ class GameOfLifeTest {
     void Matrix1x0ThrowsException() {
         assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> new GameOfLife.GameOfLifeBuilder(new MatrixSize(1, 0)).build());
     }
+
+    @Test
+    void throwsNullPointExceptionWhenPositionIsNull() {
+        assertThatExceptionOfType(NullPointerException.class).isThrownBy(() ->
+                new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
+                        .cellAlive(null)
+                        .build());
+    }
 }

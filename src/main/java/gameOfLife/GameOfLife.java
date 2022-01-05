@@ -2,6 +2,7 @@ package gameOfLife;
 
 import java.util.Arrays;
 import static java.lang.Math.pow;
+import static gameOfLife.Validate.notNull;
 
 public class GameOfLife {
     private final Cell[][] cellMatrix;
@@ -119,6 +120,7 @@ public class GameOfLife {
         }
 
         public GameOfLifeBuilder cellAlive(Position position) {
+            notNull(position);
             cellMatrix[position.row()][position.column()].setAlive(true);
             lastCellMatrix[position.row()][position.column()].setAlive(true);
             return this;

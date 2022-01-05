@@ -1,18 +1,14 @@
 package gameOfLife;
 
+import static gameOfLife.Validate.greaterThan;
+
 public class MatrixSize {
     private final int rows;
     private final int columns;
 
     public MatrixSize(int rows, int columns) {
-        if (rows < 1) {
-            throw new IllegalArgumentException();
-        }
-        if (columns < 1) {
-            throw new IllegalArgumentException();
-        }
-        this.rows = rows;
-        this.columns = columns;
+        this.rows = greaterThan(rows, 1);
+        this.columns = greaterThan(columns, 1);
     }
 
     public int rows() {
