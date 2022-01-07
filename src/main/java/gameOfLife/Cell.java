@@ -8,14 +8,24 @@ public class Cell {
 
     private final Position position;
     private boolean alive;
+    private boolean aliveLastRender;
 
     public Cell(Position position) {
         this.position = position;
         this.alive = false;
+        this.aliveLastRender = false;
     }
 
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public void renderCell(int numberOfNeighbours) {
+        if (alive) {
+            renderAliveCell(numberOfNeighbours);
+        } else {
+            renderDeadCell(numberOfNeighbours);
+        }
     }
 
     public void bringAlive() {
@@ -30,24 +40,28 @@ public class Cell {
         return alive;
     }
 
-    void renderCell(int numberOfNeighbours) {
-        if (alive) {
-            renderAliveCell(numberOfNeighbours);
-        } else {
-            renderDeadCell(numberOfNeighbours);
-        }
-    }
-
-    void renderAliveCell(int numberOfNeighbours) {
+    private void renderAliveCell(int numberOfNeighbours) {
         if (isNotStrictlyBetween(numberOfNeighbours, 2, 3)) {
             alive = false;
         }
     }
 
-    void renderDeadCell(int numberOfNeighbours) {
+    private void renderDeadCell(int numberOfNeighbours) {
         if (numberOfNeighbours == 3) {
             alive = true;
         }
+    }
+
+    public void updateAliveLastRender() {
+        aliveLastRender = alive;
+    }
+
+    public boolean isAliveLastRender() {
+        return aliveLastRender;
+    }
+
+    public void setAliveLastRender(boolean alive) {
+        this.aliveLastRender = alive;
     }
 
     @Override
@@ -62,4 +76,6 @@ public class Cell {
     public int hashCode() {
         return Objects.hash(position, alive);
     }
+
+
 }
