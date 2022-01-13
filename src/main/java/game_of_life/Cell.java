@@ -1,8 +1,8 @@
-package gameOfLife;
+package game_of_life;
 
 import java.util.Objects;
 
-import static gameOfLife.Validate.isNotStrictlyBetween;
+import static game_of_life.Validate.isNotStrictlyBetween;
 
 public class Cell {
 
@@ -28,9 +28,6 @@ public class Cell {
         }
     }
 
-    public void bringAlive() {
-        alive = true;
-    }
 
     public Position position() {
         return position;

@@ -1,23 +1,8 @@
-package gameOfLife;
+package game_of_life;
 
 import java.util.Objects;
 
-public class Position {
-    private final int row;
-    private final int column;
-
-    public Position(int row, int column) {
-        this.row = row;
-        this.column = column;
-    }
-
-    public int row() {
-        return row;
-    }
-
-    public int column() {
-        return column;
-    }
+public record Position(int row, int column) {
 
     @Override
     public boolean equals(Object o) {

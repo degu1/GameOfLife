@@ -1,9 +1,9 @@
-package gameOfLife;
+package game_of_life;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-import static gameOfLife.Validate.isBetween;
+import static game_of_life.Validate.isBetween;
 import static java.lang.Math.pow;
 
 public class Board {
@@ -13,12 +13,12 @@ public class Board {
     public Board(MatrixSize matrixSize) {
         this.matrixSize = matrixSize;
         this.cellMatrix = new Cell[matrixSize.rows()][matrixSize.columns()];
-        populateMatrix(matrixSize.rows(), matrixSize.columns());
+        populateMatrix(matrixSize);
     }
 
-    private void populateMatrix(int rows, int columns) {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < columns; col++) {
+    private void populateMatrix(MatrixSize matrixSize) {
+        for (int row = 0; row < matrixSize.rows(); row++) {
+            for (int col = 0; col < matrixSize.columns(); col++) {
                 cellMatrix[row][col] = new Cell(new Position(row, col));
             }
         }
@@ -42,7 +42,7 @@ public class Board {
     }
 
     private void renderAllCells() {
-        Arrays.stream(cellMatrix).flatMap(Arrays::stream)
+        Arrays.stream(cellMatrix).flatMap(Arrays::stream).parallel()
                 .forEach(cell -> cell.renderCell(numberOfNeighbors(cell)));
     }
 
@@ -64,7 +64,7 @@ public class Board {
     }
 
     private double squareDistanceOfTwoPositions(Position position, Position position2) {
-        return pow(position.row() - position2.row(), 2) + pow(position.column() - position2.column(), 2);
+        return pow(position.row() - (double) position2.row(), 2) + pow(position.column() - (double) position2.column(), 2);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class Board {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Board that = (Board) o;
-        for (int i = 0; i < cellMatrix[0].length; i++) {
+        for (int i = 0; i < cellMatrix.length; i++) {
             if (!Arrays.equals(cellMatrix[i], that.cellMatrix[i])) {
                 return false;
             }
@@ -83,7 +83,7 @@ public class Board {
     @Override
     public int hashCode() {
         int result = Objects.hash(matrixSize);
-        result = 31 * result + Arrays.hashCode(cellMatrix);
+        result = 31 * result + Arrays.deepHashCode(cellMatrix);
         return result;
     }
 }

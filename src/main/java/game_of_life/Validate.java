@@ -1,6 +1,10 @@
-package gameOfLife;
+package game_of_life;
 
 public class Validate {
+
+    private Validate() {
+        throw new IllegalStateException("Utility class");
+    }
 
     public static int greaterThan(int value, int limit) {
         if (value <= limit) {
@@ -10,17 +14,11 @@ public class Validate {
     }
 
     public static boolean isBetween(double value, int lowerLimit, int upperLimit) {
-        if (value <= lowerLimit || value >= upperLimit) {
-            return false;
-        }
-        return true;
+        return lowerLimit < value && value < upperLimit;
     }
 
     public static boolean isNotStrictlyBetween(double value, int lowerLimit, int upperLimit) {
-        if (lowerLimit <= value && value <= upperLimit) {
-            return false;
-        }
-        return true;
+        return !(lowerLimit <= value && value <= upperLimit);
     }
 
     public static <T> T notNull(T t) {

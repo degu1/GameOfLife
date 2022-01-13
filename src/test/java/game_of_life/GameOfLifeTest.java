@@ -1,4 +1,4 @@
-package gameOfLife;
+package game_of_life;
 
 import org.junit.jupiter.api.Test;
 
@@ -279,6 +279,13 @@ class GameOfLifeTest {
 
         assertThatExceptionOfType(IllegalArgumentException.class)
                 .isThrownBy(() -> gameOfLife.getCell(new Position(4, 4)));
+    }
+
+    @Test
+    void test100x100() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(new MatrixSize(100, 100))
+                .build();
+        gameOfLife.render();
     }
 
 }

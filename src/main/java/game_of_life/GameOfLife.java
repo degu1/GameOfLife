@@ -1,8 +1,8 @@
-package gameOfLife;
+package game_of_life;
 
 import java.util.Objects;
 
-import static gameOfLife.Validate.validPosition;
+import static game_of_life.Validate.validPosition;
 
 public class GameOfLife {
     private final Board board;
