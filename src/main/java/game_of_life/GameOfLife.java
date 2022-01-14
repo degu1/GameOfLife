@@ -32,11 +32,6 @@ public class GameOfLife {
         return Objects.equals(board, that.board);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(board);
-    }
-
     public static class GameOfLifeBuilder {
         private final Board board;
         private final MatrixSize matrixSize;
