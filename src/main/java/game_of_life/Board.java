@@ -1,10 +1,10 @@
 package game_of_life;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
+import java.util.List;
 
 import static game_of_life.Validate.isBetween;
-import static java.lang.Math.pow;
 
 public class Board {
     private final Cell[][] cellMatrix;
@@ -52,19 +52,27 @@ public class Board {
     }
 
     private int numberOfNeighbors(Cell currentCell) {
-        return Arrays.stream(cellMatrix).flatMap(Arrays::stream)
-                .filter(cell -> isNeighbor(currentCell.position(), cell.position()))
+        return neighbors(currentCell).stream()
+                .filter(cell -> notEqualPositions(currentCell, cell))
                 .filter(Cell::isAliveLastRender)
                 .mapToInt(cell -> 1)
                 .sum();
     }
 
-    private boolean isNeighbor(Position position, Position position2) {
-        return isBetween(squareDistanceOfTwoPositions(position, position2), 0, 4);
+    private boolean notEqualPositions(Cell currentCell, Cell cell) {
+        return !currentCell.position().equals(cell.position());
     }
 
-    private double squareDistanceOfTwoPositions(Position position, Position position2) {
-        return pow(position.row() - (double) position2.row(), 2) + pow(position.column() - (double) position2.column(), 2);
+    private List<Cell> neighbors(Cell currentCell) {
+        List<Cell> neighbors = new ArrayList<>();
+        for (int row = currentCell.position().row() - 1; row <= currentCell.position().row() + 1; row++) {
+            for (int col = currentCell.position().column() - 1; col <= currentCell.position().column() + 1; col++) {
+                if (isBetween(row, -1, matrixSize.rows()) && isBetween(col, -1, matrixSize.columns())) {
+                    neighbors.add(cellMatrix[row][col]);
+                }
+            }
+        }
+        return neighbors;
     }
 
     @Override
@@ -78,12 +86,5 @@ public class Board {
             }
         }
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(matrixSize);
-        result = 31 * result + Arrays.deepHashCode(cellMatrix);
-        return result;
     }
 }

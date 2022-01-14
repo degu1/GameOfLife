@@ -68,11 +68,4 @@ public class Cell {
         Cell cell = (Cell) o;
         return alive == cell.alive && Objects.equals(position, cell.position);
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(position, alive);
-    }
-
-
 }
