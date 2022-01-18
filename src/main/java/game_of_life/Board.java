@@ -24,10 +24,6 @@ public class Board {
         }
     }
 
-    public Cell cell(Position position) {
-        return cellMatrix[position.row()][position.column()];
-    }
-
     public Cell[][] cellMatrix() {
         return cellMatrix;
     }
@@ -36,31 +32,26 @@ public class Board {
         return matrixSize;
     }
 
-    public void render() {
-        renderAllCells();
+    public Cell cell(Position position) {
+        return cellMatrix[position.row()][position.column()];
+    }
+
+    public void renderNextGeneration() {
+        renderNextGenerationForAllCells();
         updateLastCellMatrix();
     }
 
-    private void renderAllCells() {
+    private void renderNextGenerationForAllCells() {
         Arrays.stream(cellMatrix).flatMap(Arrays::stream).parallel()
-                .forEach(cell -> cell.renderCell(numberOfNeighbors(cell)));
-    }
-
-    private void updateLastCellMatrix() {
-        Arrays.stream(cellMatrix).flatMap(Arrays::stream)
-                .forEach(Cell::updateAliveLastRender);
+                .forEach(cell -> cell.renderNextGeneration(numberOfNeighbors(cell)));
     }
 
     private int numberOfNeighbors(Cell currentCell) {
         return neighbors(currentCell).stream()
                 .filter(cell -> notEqualPositions(currentCell, cell))
-                .filter(Cell::isAliveLastRender)
+                .filter(Cell::isAliveLastGeneration)
                 .mapToInt(cell -> 1)
                 .sum();
-    }
-
-    private boolean notEqualPositions(Cell currentCell, Cell cell) {
-        return !currentCell.position().equals(cell.position());
     }
 
     private List<Cell> neighbors(Cell currentCell) {
@@ -73,6 +64,15 @@ public class Board {
             }
         }
         return neighbors;
+    }
+
+    private boolean notEqualPositions(Cell currentCell, Cell cell) {
+        return !currentCell.position().equals(cell.position());
+    }
+
+    private void updateLastCellMatrix() {
+        Arrays.stream(cellMatrix).flatMap(Arrays::stream)
+                .forEach(Cell::updateAliveLastGeneration);
     }
 
     @Override

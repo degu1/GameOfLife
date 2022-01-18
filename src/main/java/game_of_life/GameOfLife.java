@@ -20,8 +20,8 @@ public class GameOfLife {
         return board.cell(position);
     }
 
-    public void render() {
-        board.render();
+    public void renderNextGeneration() {
+        board.renderNextGeneration();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class GameOfLife {
         public GameOfLifeBuilder cellAlive(Position position) {
             validPosition(position, matrixSize);
             board.cell(position).setAlive(true);
-            board.cell(position).setAliveLastRender(true);
+            board.cell(position).setAliveLastGeneration(true);
             return this;
         }
 

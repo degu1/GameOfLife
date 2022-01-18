@@ -22,7 +22,7 @@ class GameOfLifeTest {
         GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                 .cellAlive(new Position(1, 1))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         Cell expected = new Cell(new Position(1, 1));
 
@@ -36,7 +36,7 @@ class GameOfLifeTest {
                 .cellAlive(new Position(0, 1))
                 .cellAlive(new Position(0, 2))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         Cell expected = new Cell(new Position(1, 1));
         expected.setAlive(true);
@@ -52,7 +52,7 @@ class GameOfLifeTest {
                 .cellAlive(new Position(0, 2))
                 .cellAlive(new Position(1, 0))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         Cell expected = new Cell(new Position(1, 1));
         expected.setAlive(true);
@@ -66,7 +66,7 @@ class GameOfLifeTest {
                 .cellAlive(new Position(1, 1))
                 .cellAlive(new Position(0, 1))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         Cell expected = new Cell(new Position(1, 1));
 
@@ -82,7 +82,7 @@ class GameOfLifeTest {
                 .cellAlive(new Position(1, 0))
                 .cellAlive(new Position(1, 2))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         Cell expected = new Cell(new Position(1, 1));
 
@@ -96,7 +96,7 @@ class GameOfLifeTest {
                 .cellAlive(new Position(1, 0))
                 .cellAlive(new Position(1, 2))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         Cell expected = new Cell(new Position(1, 1));
         expected.setAlive(true);
@@ -110,7 +110,7 @@ class GameOfLifeTest {
                 .cellAlive(new Position(0, 2))
                 .cellAlive(new Position(1, 0))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         Cell expected = new Cell(new Position(1, 1));
 
@@ -125,7 +125,7 @@ class GameOfLifeTest {
                 .cellAlive(new Position(1, 2))
                 .cellAlive(new Position(2, 2))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         Cell expected = new Cell(new Position(1, 1));
 
@@ -139,7 +139,7 @@ class GameOfLifeTest {
                 .cellAlive(new Position(0, 1))
                 .cellAlive(new Position(1, 0))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         GameOfLife expected = new GameOfLife.GameOfLifeBuilder(new MatrixSize(10, 10))
                 .cellAlive(new Position(0, 0))
@@ -156,7 +156,7 @@ class GameOfLifeTest {
         GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                 .cellAlive(new Position(0, 0))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         GameOfLife expected = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                 .build();
@@ -169,7 +169,7 @@ class GameOfLifeTest {
         GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                 .cellAlive(new Position(0, 2))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         GameOfLife expected = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                 .build();
@@ -182,7 +182,7 @@ class GameOfLifeTest {
         GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                 .cellAlive(new Position(2, 0))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         GameOfLife expected = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                 .build();
@@ -195,7 +195,7 @@ class GameOfLifeTest {
         GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                 .cellAlive(new Position(2, 2))
                 .build();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
 
         GameOfLife expected = new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                 .build();
@@ -210,8 +210,8 @@ class GameOfLifeTest {
                 .cellAlive(new Position(2, 2))
                 .cellAlive(new Position(2, 3))
                 .build();
-        gameOfLife.render();
-        gameOfLife.render();
+        gameOfLife.renderNextGeneration();
+        gameOfLife.renderNextGeneration();
 
         GameOfLife expected = new GameOfLife.GameOfLifeBuilder(new MatrixSize(5, 5))
                 .cellAlive(new Position(2, 1))
@@ -285,7 +285,22 @@ class GameOfLifeTest {
     void test100x100() {
         GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(new MatrixSize(100, 100))
                 .build();
-        gameOfLife.render();
+
+        long start = System.currentTimeMillis();
+        gameOfLife.renderNextGeneration();
+        long end = System.currentTimeMillis();
+        long executionTime = end - start;
+        System.out.println("Execution time of renderNextGeneration " + executionTime + "milliseconds");
+
+        assertThat(executionTime).isLessThan(500);
     }
 
+    @Test
+    void getCellMatrixNotReturnNull() {
+        GameOfLife gameOfLife = new GameOfLife.GameOfLifeBuilder(new MatrixSize(10, 4))
+                .build();
+
+        assertThat(gameOfLife.getCellMatrix()).isNotNull();
+
+    }
 }

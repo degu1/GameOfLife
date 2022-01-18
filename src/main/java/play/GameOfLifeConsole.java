@@ -19,7 +19,7 @@ public class GameOfLifeConsole {
 
         for (int i = 0; i < 29; i++) {
             printGameMatrix(gameOfLife);
-            gameOfLife.render();
+            gameOfLife.renderNextGeneration();
             try {
                 SECONDS.sleep(1);
             } catch (InterruptedException e) {
