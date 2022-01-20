@@ -55,15 +55,24 @@ public class Board {
     }
 
     private List<Cell> neighbors(Cell currentCell) {
+        Position position = currentCell.position();
         List<Cell> neighbors = new ArrayList<>();
-        for (int row = currentCell.position().row() - 1; row <= currentCell.position().row() + 1; row++) {
-            for (int col = currentCell.position().column() - 1; col <= currentCell.position().column() + 1; col++) {
+        for (int row = previousIndex(position.row()); row <= followingIndex(position.row()); row++) {
+            for (int col = previousIndex(position.column()); col <= followingIndex(position.column()); col++) {
                 if (isBetween(row, -1, matrixSize.rows()) && isBetween(col, -1, matrixSize.columns())) {
                     neighbors.add(cellMatrix[row][col]);
                 }
             }
         }
         return neighbors;
+    }
+
+    private int previousIndex(int index) {
+        return index - 1;
+    }
+
+    private int followingIndex(int index) {
+        return index + 1;
     }
 
     private boolean notEqualPositions(Cell currentCell, Cell cell) {
