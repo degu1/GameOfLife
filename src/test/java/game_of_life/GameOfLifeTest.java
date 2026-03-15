@@ -257,15 +257,15 @@ class GameOfLifeTest {
     }
 
     @Test
-    void notThrowsExceptionWhenRowColumnInMatrix() {
+    void notThrowsExceptionWhenRowInMatrix() {
         assertThatNoException().isThrownBy(() ->
                 new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
-                        .cellAlive(new Position(0, 2))
+                        .cellAlive(new Position(2, 0))
                         .build());
     }
 
     @Test
-    void notThrowsExceptionWhenPositionColumnInMatrix() {
+    void notThrowsExceptionWhenColumnInMatrix() {
         assertThatNoException().isThrownBy(() ->
                 new GameOfLife.GameOfLifeBuilder(new MatrixSize(3, 3))
                         .cellAlive(new Position(0, 2))
